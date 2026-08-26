@@ -10,7 +10,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Building application...'
+                bat 'echo Building application on Windows'
             }
         }
 
