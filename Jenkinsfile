@@ -1,10 +1,16 @@
 pipeline {
     agent any
 
+    environment {
+        APP_NAME = 'Jenkins-Day3'
+        ENVIRONMENT = 'DEV'
+    }
+
     stages {
+
         stage('Hello') {
             steps {
-                echo 'Hello from Jenkins - Day 2!'
+                echo 'Hello from Jenkins!'
             }
         }
 
@@ -20,6 +26,14 @@ pipeline {
             }
         }
 
+        stage('Credentials Test') {
+            steps {
+                withCredentials([string(credentialsId: 'day3-secret', variable: 'MY_SECRET')]) {
+                    bat 'echo Jenkins credential is available'
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
                 echo 'Deploying application...'
@@ -29,6 +43,14 @@ pipeline {
         stage('Verify') {
             steps {
                 echo 'Verifying deployment...'
+            }
+        }
+
+        stage('Environment') {
+            steps {
+                echo "Application: ${APP_NAME}"
+                echo "Environment: ${ENVIRONMENT}"
+                echo "Build Number: ${BUILD_NUMBER}"
             }
         }
     }
